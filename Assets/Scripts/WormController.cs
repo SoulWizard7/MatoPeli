@@ -8,9 +8,9 @@ public class WormController : MonoBehaviour
     public static readonly int boardSize = 10;
 
     [SerializeField] protected GameObject WormNodePrefab;
-
+    [SerializeField] private Transform matoBodyParent;    
     [NonSerialized] public static UnityEvent pickup = new UnityEvent();
-    [NonSerialized] public Node head;
+    [NonSerialized] public static Node head;
     private Vector3 HeadPosition 
     {
         get => head.transform.position;
@@ -34,6 +34,8 @@ public class WormController : MonoBehaviour
 
     private void PickUpFruit()
     {
+        HighScore.score.Invoke(1);
+        
         Node current = head.next.next;
 
         while (current.next != null)
@@ -41,7 +43,7 @@ public class WormController : MonoBehaviour
             current = current.next;
         }
 
-        Node newNode = Instantiate(WormNodePrefab, current.position, Quaternion.identity).GetComponent<Node>();
+        Node newNode = Instantiate(WormNodePrefab, current.position, Quaternion.identity, matoBodyParent).GetComponent<Node>();
         current.next = newNode;
         newNode.position = current.position;
         int point = _lineBody.positionCount++;
@@ -80,26 +82,9 @@ public class WormController : MonoBehaviour
         {
             _lineBody.SetPosition(i, current.transform.position);
             if (current.next == null) break;
-
-            if (Vector3.Distance(current.position, current.next.position) > 1.5f)
-            {
-                
-            }
-            
             current = current.next;
             count++;
         }
-        
-/*
-        while (current.next != null)
-        {
-            if (current.position == randomPos)
-            {
-                Debug.Log("had to get new randompos");
-                return RandomPos();
-            }
-            current = current.next;
-        }*/
     }
 
     private void GameOver()
@@ -109,6 +94,13 @@ public class WormController : MonoBehaviour
         head.CreateRigidbody();
         _playField.useGravity = true;
         GetComponent<PickupSpawner>().GameOver();
+        
+        SkillTree skillTree = GetComponent<SkillTree>();
+        skillTree._audioSource.Stop();
+        skillTree._audioSource.pitch = 1;
+        skillTree._audioSource.clip = skillTree.songs[6];
+        skillTree._audioSource.Play();
+        
         Debug.Log("GAME OVER!");
     }
     

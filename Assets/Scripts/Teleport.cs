@@ -35,13 +35,13 @@ public class Teleport : MonoBehaviour
         {
             _collider = other;
             _teleportLine.enabled = true;
-            
             TickManager.tick.AddListener(TeleportNow);
         }
     }
 
     private void TeleportNow()
     {
+        HighScore.score.Invoke(1);
         otherPortal.GetComponent<Teleport>().canTeleport = false;
         _collider.transform.position = otherPortal.position;
         TickManager.tick.RemoveListener(TeleportNow);

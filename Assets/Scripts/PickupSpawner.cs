@@ -11,10 +11,11 @@ public class PickupSpawner : MonoBehaviour
     [SerializeField] private GameObject TeleportPrefab;
     private StartSetup _startSetup;
     
-    public int ticksBetweenFruitSpawn = 8;
+    [SerializeField] private int ticksBetweenFruitSpawn = 8;
     private int _fruitTickCount = 5;
-    public int ticksBetweenTeleportSpawn = 8;
-    private int _teleportTickCount = 5;
+    
+    [SerializeField] private int ticksBetweenTeleportSpawn = 8;
+    private int _teleportTickCount = 8;
     private void Awake()
     {
         _startSetup = GetComponent<StartSetup>();
@@ -63,7 +64,7 @@ public class PickupSpawner : MonoBehaviour
             Random.Range(-_boardSize, _boardSize));
 
         
-        Node current = _startSetup.head;
+        Node current = WormController.head;
         
         // Check if randomPos is on body
         while (current.next != null)
