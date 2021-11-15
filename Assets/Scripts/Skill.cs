@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static SkillTree;
 
 public class Skill : MonoBehaviour
 {
@@ -15,44 +12,53 @@ public class Skill : MonoBehaviour
 
     public int[] connectedSkills;
 
+    private Image _skillBoxColor;
+    private SkillTree _skillTree;
+
+    private void Awake()
+    {
+        _skillTree = GameObject.Find("GameManager").GetComponent<SkillTree>();
+        _skillBoxColor = GetComponent<Image>();
+    }
+
     public void UpdateUI()
     {
-        titleText.text = $"{skillTree._skillLevels[id]}/{skillTree._skillCaps[id]} \n {skillTree._skillNames[id]}";
+        titleText.text = $"{_skillTree._skillLevels[id]}/{_skillTree._skillCaps[id]} \n {_skillTree._skillNames[id]}";
 
-        if (skillTree._skillLevels[id] != skillTree._skillCaps[id])
+        if (_skillTree._skillLevels[id] != _skillTree._skillCaps[id])
         {
-            descText.text = $"{skillTree._skillDescriptions[id]} \n cost: 1 sp";
+            descText.text = $"{_skillTree._skillDescriptions[id]} \n cost: 1 sp";
         }
-        else descText.text = $"{skillTree._skillDescriptions[id]}";
+        else descText.text = $"{_skillTree._skillDescriptions[id]}";
 
-        GetComponent<Image>().color = skillTree._skillLevels[id] >= skillTree._skillCaps[id] ? Color.yellow
-            : skillTree._skillPoint >= 1 ? Color.green : Color.white;
+        _skillBoxColor.color = _skillTree._skillLevels[id] >= _skillTree._skillCaps[id] ? Color.yellow
+            : SkillTree._skillPoint >= 1 ? Color.green : Color.white;
 
         foreach (var connectedSkill in connectedSkills)
         {
-            skillTree._skillList[connectedSkill].gameObject.SetActive(skillTree._skillLevels[id] > 0);
-            skillTree._connectorList[connectedSkill].SetActive(skillTree._skillLevels[id] > 0);
+            _skillTree._skillList[connectedSkill].gameObject.SetActive(_skillTree._skillLevels[id] > 0);
+            _skillTree._connectorList[connectedSkill].SetActive(_skillTree._skillLevels[id] > 0);
         }
     }
 
     public void Buy()
     {
-        if (skillTree._skillPoint < 1 || skillTree._skillLevels[id] >= skillTree._skillCaps[id]) return;
+        if (SkillTree._skillPoint < 1 || _skillTree._skillLevels[id] >= _skillTree._skillCaps[id]) return;
 
-        skillTree._skillPoint -= 1;
-        skillTree._skillLevels[id]++;
-        skillTree.UpdateAllSkillUI();
+        SkillTree._skillPoint -= 1;
+        _skillTree._skillLevels[id]++;
+        _skillTree.UpdateAllSkillUI();
         HighScore.score.Invoke(0);
     }
 
     public void PlaySong()
     {
-        if (skillTree._skillLevels[id] == 0) return;
+        if (_skillTree._skillLevels[id] == 0) return;
         
-        skillTree._audioSource.Stop();
-        skillTree._audioSource.clip = skillTree.songs[id];
-        if (skillTree._skillLevels[id] == 1) skillTree._audioSource.pitch = skillTree._skillLevels[id];
-        else skillTree._audioSource.pitch = 1 + (skillTree._skillLevels[id] * 0.5f);
-        skillTree._audioSource.Play();
+        _skillTree._audioSource.Stop();
+        _skillTree._audioSource.clip = _skillTree.songs[id];
+        if (_skillTree._skillLevels[id] == 1) _skillTree._audioSource.pitch = _skillTree._skillLevels[id];
+        else _skillTree._audioSource.pitch = 1 + (_skillTree._skillLevels[id] * 0.5f);
+        _skillTree._audioSource.Play();
     }
 }

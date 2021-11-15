@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour
 {
     [SerializeField] private Transform otherPortal;
-    [NonSerialized] public bool canTeleport = true;
+    private bool canTeleport = true;
     private Collider _collider;
     private LineRenderer _teleportLine;
 

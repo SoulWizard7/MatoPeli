@@ -1,36 +1,31 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SkillTree : MonoBehaviour
 {
-    public static SkillTree skillTree;
-
     private void Awake()
     {
-        skillTree = this;
         _audioSource = GetComponent<AudioSource>();
     }
     
-    [HideInInspector]public int[] _skillLevels;
-    [HideInInspector]public int[] _skillCaps;
-    [HideInInspector]public string[] _skillNames;
-    [HideInInspector]public string[] _skillDescriptions;
+    [NonSerialized]public int[] _skillLevels;
+    [NonSerialized]public int[] _skillCaps;
+    [NonSerialized]public string[] _skillNames;
+    [NonSerialized]public string[] _skillDescriptions;
     
-    [HideInInspector]public List<Skill> _skillList;
+    [NonSerialized]public List<Skill> _skillList = new List<Skill>();
     public GameObject SkillHolder;
     
-    [HideInInspector]public List<GameObject> _connectorList;
+    [NonSerialized]public List<GameObject> _connectorList = new List<GameObject>();
     public GameObject connectorHolder;
 
-    [HideInInspector]public int _skillPoint = 1;
+    [NonSerialized]public static int _skillPoint = 1;
     
-    public int _scoreNeededForSkillPoint = 150;
+    public static int _scoreNeededForSkillPoint = 40;
 
     public List<AudioClip> songs;
-    [HideInInspector]public AudioSource _audioSource;
+    [NonSerialized]public AudioSource _audioSource;
 
     private void Start()
     {

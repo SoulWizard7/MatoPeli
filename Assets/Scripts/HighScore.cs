@@ -2,7 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using static SkillTree;
 
 [System.Serializable]
 public class HighScoreIntEvent : UnityEvent<int>
@@ -27,12 +26,12 @@ public class HighScore : MonoBehaviour
     {
         _currentScoreAmount += scoreAmount;
         _skillPointScoreCount += scoreAmount;
-        if (_skillPointScoreCount == skillTree._scoreNeededForSkillPoint)
+        if (_skillPointScoreCount == SkillTree._scoreNeededForSkillPoint)
         {
-            skillTree._skillPoint++;
+            SkillTree._skillPoint++;
             _skillPointScoreCount = 0;
         }
 
-        scoreBox.text = $"Score: {_currentScoreAmount}\nSkill Points: {skillTree._skillPoint}";
+        scoreBox.text = $"Score: {_currentScoreAmount}\nSkill Points: {SkillTree._skillPoint}";
     }
 }

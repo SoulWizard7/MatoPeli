@@ -16,8 +16,7 @@ public class WormController : MonoBehaviour
         get => head.transform.position;
         set => head.transform.position = value;
     }
-
-    [SerializeField] private Rigidbody _playField;
+    
     private LineRenderer _lineBody;
     private float outOfBoundsOffset = 0.3f;
 
@@ -43,9 +42,9 @@ public class WormController : MonoBehaviour
             current = current.next;
         }
 
-        Node newNode = Instantiate(WormNodePrefab, current.position, Quaternion.identity, matoBodyParent).GetComponent<Node>();
+        Node newNode = Instantiate(WormNodePrefab, current.curPos, Quaternion.identity, matoBodyParent).GetComponent<Node>();
         current.next = newNode;
-        newNode.position = current.position;
+        newNode.curPos = current.curPos;
         int point = _lineBody.positionCount++;
         _lineBody.SetPosition(point, newNode.transform.position);
     }
@@ -58,7 +57,7 @@ public class WormController : MonoBehaviour
             return;
         }
         
-        head.next.position = HeadPosition;
+        head.next.curPos = HeadPosition;
 
         if (HeadPosition + PlayerController.Direction() != head.next.transform.position)
         {
@@ -68,9 +67,7 @@ public class WormController : MonoBehaviour
         else { HeadPosition += _lastDirection; }
 
         head.next.Move();
-
         UpdateBody();
-
     }
 
     private void UpdateBody()
@@ -89,19 +86,10 @@ public class WormController : MonoBehaviour
 
     private void GameOver()
     {
-        TickManager.tick.RemoveAllListeners();
         head.GetComponent<MeshRenderer>().material.color = Color.red;
         head.CreateRigidbody();
-        _playField.useGravity = true;
-        GetComponent<PickupSpawner>().GameOver();
         
-        SkillTree skillTree = GetComponent<SkillTree>();
-        skillTree._audioSource.Stop();
-        skillTree._audioSource.pitch = 1;
-        skillTree._audioSource.clip = skillTree.songs[6];
-        skillTree._audioSource.Play();
-        
-        Debug.Log("GAME OVER!");
+        GetComponent<GameMenus>().GameOver();
     }
     
     private bool CrashIntoSelf()
@@ -111,7 +99,7 @@ public class WormController : MonoBehaviour
 
         while (current.next != null)
         {
-            if (current.position == HeadPosition)
+            if (current.curPos == HeadPosition)
             {
                 return true;
             }

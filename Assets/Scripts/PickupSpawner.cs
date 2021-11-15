@@ -1,25 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 public class PickupSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject ApplePrefab;
     [SerializeField] private GameObject TeleportPrefab;
-    private StartSetup _startSetup;
     
     [SerializeField] private int ticksBetweenFruitSpawn = 8;
     private int _fruitTickCount = 5;
     
     [SerializeField] private int ticksBetweenTeleportSpawn = 8;
     private int _teleportTickCount = 8;
-    private void Awake()
-    {
-        _startSetup = GetComponent<StartSetup>();
-    }
 
     private void Start()
     {
@@ -69,9 +59,8 @@ public class PickupSpawner : MonoBehaviour
         // Check if randomPos is on body
         while (current.next != null)
         {
-            if (current.position == randomPos)
+            if (current.curPos == randomPos)
             {
-                Debug.Log("had to get new randompos");
                 return RandomPos();
             }
             current = current.next;
