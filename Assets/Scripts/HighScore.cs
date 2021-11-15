@@ -3,13 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class HighScoreIntEvent : UnityEvent<int>
-{
-    
-}
+[Serializable] public class HighScoreIntEvent : UnityEvent<int> { }
 public class HighScore : MonoBehaviour
 {
+    // Handles score and adds skill points as well
+    
     [NonSerialized] public static HighScoreIntEvent score = new HighScoreIntEvent();
     [SerializeField] private TextMeshProUGUI scoreBox;
 
@@ -26,9 +24,11 @@ public class HighScore : MonoBehaviour
     {
         _currentScoreAmount += scoreAmount;
         _skillPointScoreCount += scoreAmount;
+        
         if (_skillPointScoreCount == SkillTree._scoreNeededForSkillPoint)
         {
             SkillTree._skillPoint++;
+            SkillTree.updateSkillTreeUI.Invoke();
             _skillPointScoreCount = 0;
         }
 

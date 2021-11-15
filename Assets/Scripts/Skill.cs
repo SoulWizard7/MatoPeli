@@ -47,7 +47,7 @@ public class Skill : MonoBehaviour
 
         SkillTree._skillPoint -= 1;
         _skillTree._skillLevels[id]++;
-        _skillTree.UpdateAllSkillUI();
+        SkillTree.updateSkillTreeUI.Invoke();
         HighScore.score.Invoke(0);
     }
 
@@ -58,7 +58,7 @@ public class Skill : MonoBehaviour
         _skillTree._audioSource.Stop();
         _skillTree._audioSource.clip = _skillTree.songs[id];
         if (_skillTree._skillLevels[id] == 1) _skillTree._audioSource.pitch = _skillTree._skillLevels[id];
-        else _skillTree._audioSource.pitch = 1 + (_skillTree._skillLevels[id] * 0.5f);
+        else _skillTree._audioSource.pitch = 1 + (_skillTree._skillLevels[id] * 0.3f);
         _skillTree._audioSource.Play();
     }
 }

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
+    // Linked list nodes, head node starts in WormController script
+    
     public Node next;
     public Vector3 curPos;
 

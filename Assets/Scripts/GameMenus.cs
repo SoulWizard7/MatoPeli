@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameMenus : MonoBehaviour
 {
+    // This script handles pause menu and the game over menu & game over functions
+    
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     [SerializeField] private Rigidbody _playField;
@@ -24,10 +26,17 @@ public class GameMenus : MonoBehaviour
     {
         TickManager.tick.RemoveAllListeners();
         _playField.useGravity = true;
-        GetComponent<PickupSpawner>().GameOver();
+        
+        Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody child in allChildren)
+        {
+            child.useGravity = true;
+            child.GetComponent<Collider>().isTrigger = false;
+        }
         
         SkillTree skillTree = GetComponent<SkillTree>();
         skillTree._audioSource.Stop();
+        skillTree._audioSource.loop = false;
         skillTree._audioSource.pitch = 1;
         skillTree._audioSource.clip = skillTree.songs[6];
         skillTree._audioSource.Play();
@@ -43,6 +52,7 @@ public class GameMenus : MonoBehaviour
 
     public void RestartGame()
     {
+        SkillTree._skillPoint = 1;
         SceneManager.LoadScene(0);
     }
     

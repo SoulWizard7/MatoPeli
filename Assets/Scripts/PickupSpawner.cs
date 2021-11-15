@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PickupSpawner : MonoBehaviour
 {
+    // spawns "apples" and teleports, the only 2 pickups in the game
+    
     [SerializeField] private GameObject ApplePrefab;
     [SerializeField] private GameObject TeleportPrefab;
     
@@ -18,13 +20,13 @@ public class PickupSpawner : MonoBehaviour
     private void TicksUntilSpawn()
     {
         _fruitTickCount--;
-        _teleportTickCount--;
         if (_fruitTickCount == 0)
         {
             SpawnApple();
             _fruitTickCount = ticksBetweenFruitSpawn;
         }
 
+        _teleportTickCount--;
         if (_teleportTickCount == 0)
         {
             SpawnTeleport();
@@ -53,7 +55,6 @@ public class PickupSpawner : MonoBehaviour
             0,
             Random.Range(-_boardSize, _boardSize));
 
-        
         Node current = WormController.head;
         
         // Check if randomPos is on body
@@ -77,15 +78,5 @@ public class PickupSpawner : MonoBehaviour
         }
         
         return randomPos;
-    }
-
-    public void GameOver()
-    {
-        Rigidbody[] allChildren = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody child in allChildren)
-        {
-            child.useGravity = true;
-            child.GetComponent<Collider>().isTrigger = false;
-        }
     }
 }

@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SkillTree : MonoBehaviour
 {
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-    }
-    
     [NonSerialized]public int[] _skillLevels;
     [NonSerialized]public int[] _skillCaps;
     [NonSerialized]public string[] _skillNames;
@@ -24,13 +20,20 @@ public class SkillTree : MonoBehaviour
     
     public static int _scoreNeededForSkillPoint = 40;
 
+    [NonSerialized] public static UnityEvent updateSkillTreeUI = new UnityEvent();
     public List<AudioClip> songs;
     [NonSerialized]public AudioSource _audioSource;
+    
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
         InitializeSkillTree();
         UpdateAllSkillUI();
+        updateSkillTreeUI.AddListener(UpdateAllSkillUI);
     }
 
     private void InitializeSkillTree()
@@ -49,8 +52,8 @@ public class SkillTree : MonoBehaviour
             "Sad violin face"
         };
 
-        foreach (var skill in SkillHolder.GetComponentsInChildren<Skill>()) _skillList.Add(skill);
-        foreach (var connector in connectorHolder.GetComponentsInChildren<RectTransform>()) _connectorList.Add(connector.gameObject);
+        foreach (Skill skill in SkillHolder.GetComponentsInChildren<Skill>()) _skillList.Add(skill);
+        foreach (RectTransform connector in connectorHolder.GetComponentsInChildren<RectTransform>()) _connectorList.Add(connector.gameObject);
 
         for (int i = 0; i < _skillList.Count; i++) _skillList[i].id = i;
 
@@ -59,7 +62,7 @@ public class SkillTree : MonoBehaviour
         _skillList[2].connectedSkills = new[] {4,5};
     }
 
-    public void UpdateAllSkillUI()
+    private void UpdateAllSkillUI()
     {
         foreach (var skill in _skillList) skill.UpdateUI();
     }
