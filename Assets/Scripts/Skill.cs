@@ -17,7 +17,6 @@ public class Skill : MonoBehaviour
 
     private void Start()
     {
-        //_skillTree = GameObject.Find("SkillTreeManager").GetComponent<SkillTree>();
         _skillBoxColor = GetComponent<Image>();
     }
 

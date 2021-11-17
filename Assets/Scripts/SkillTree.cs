@@ -19,10 +19,10 @@ public class SkillTree : MonoBehaviour
     [NonSerialized]public string[] _skillDescriptions;
     
     [NonSerialized]public List<Skill> _skillList = new List<Skill>();
-    public GameObject _skillHolder;
+    [NonSerialized]public GameObject _skillHolder;
     
     [NonSerialized]public List<GameObject> _connectorList = new List<GameObject>();
-    public GameObject _connectorHolder;
+    [NonSerialized]public GameObject _connectorHolder;
 
     [NonSerialized]public static int _skillPoint = 0;
     
@@ -46,13 +46,10 @@ public class SkillTree : MonoBehaviour
         
         _audioSource = GetComponent<AudioSource>();
     }
-    
 
     public void InitializeSkillTree()
     {
         updateSkillTreeUI.AddListener(UpdateAllSkillUI);
-
-        GetHolders();
         
         if (_skillLevels == null) _skillLevels = new int[6];
         _skillCaps = new[] {1, 5, 5, 5, 5, 5, 5};
@@ -86,12 +83,6 @@ public class SkillTree : MonoBehaviour
         _skillList[2].connectedSkills = new[] {4,5};
         
         UpdateAllSkillUI();
-    }
-    
-    public void GetHolders()
-    {
-        _skillHolder = GameObject.Find("SkillTreeHolder");
-        _connectorHolder = GameObject.Find("ConnectorHolder");
     }
 
     public void UpdateAllSkillUI()
