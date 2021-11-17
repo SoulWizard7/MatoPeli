@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// This script is attached to both teleport objects, and takes that into account.
 public class Teleport : MonoBehaviour
 {
     [SerializeField] private Transform otherPortal;
@@ -9,8 +10,8 @@ public class Teleport : MonoBehaviour
 
     private void Start()
     {
-        _teleportLine = GetComponentInChildren<LineRenderer>();
         Vector3 offset = new Vector3(0, 0.02f, 0);
+        _teleportLine = GetComponentInChildren<LineRenderer>();
 
         if (_teleportLine != null)
         {
@@ -23,8 +24,7 @@ public class Teleport : MonoBehaviour
             _teleportLine = otherPortal.GetComponentInChildren<LineRenderer>();
         }
     }
-
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && canTeleport)
@@ -37,7 +37,7 @@ public class Teleport : MonoBehaviour
 
     private void TeleportNow()
     {
-        HighScore.score.Invoke(1);
+        ScoreHandler.score.Invoke(1);
         otherPortal.GetComponent<Teleport>().canTeleport = false;
         _collider.transform.position = otherPortal.position;
         TickManager.tick.RemoveListener(TeleportNow);

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable] public class HighScoreIntEvent : UnityEvent<int> { }
-public class HighScore : MonoBehaviour
+public class ScoreHandler : MonoBehaviour
 {
     // Handles score and adds skill points as well
     

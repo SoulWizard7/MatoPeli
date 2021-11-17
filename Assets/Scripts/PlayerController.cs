@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // sends direction back to WormController script
+    
     private static Vector2Int direction = Vector2Int.up;
     private void Update()
     {

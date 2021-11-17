@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+// spawns "apples" and teleports, the only 2 pickups in the game.
 
 public class PickupSpawner : MonoBehaviour
 {
-    // spawns "apples" and teleports, the only 2 pickups in the game
-    
     [SerializeField] private GameObject ApplePrefab;
     [SerializeField] private GameObject TeleportPrefab;
     
@@ -12,6 +13,8 @@ public class PickupSpawner : MonoBehaviour
     
     [SerializeField] private int ticksBetweenTeleportSpawn = 8;
     private int _teleportTickCount = 8;
+
+    [SerializeField] private List<Color> teleportColors;
 
     private void Start()
     {
@@ -36,8 +39,13 @@ public class PickupSpawner : MonoBehaviour
 
     private void SpawnTeleport()
     {
+        int randomColor = Random.Range(0, teleportColors.Count);
         GameObject teleport = Instantiate(TeleportPrefab, RandomPos(), Quaternion.identity, transform);
-        teleport.transform.GetChild(0).gameObject.transform.position = RandomPos();
+        Transform childTeleport = teleport.transform.GetChild(0);
+        childTeleport.position = RandomPos();
+        
+        teleport.GetComponent<MeshRenderer>().material.color = teleportColors[randomColor];
+        childTeleport.GetComponent<MeshRenderer>().material.color = teleportColors[randomColor];
     }
 
     private void SpawnApple()

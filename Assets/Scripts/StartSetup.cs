@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Just instantiates the base worm body as the game starts.
 public class StartSetup : WormController
 {
     public Color headColor;

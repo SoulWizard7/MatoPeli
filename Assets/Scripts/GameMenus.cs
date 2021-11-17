@@ -34,7 +34,7 @@ public class GameMenus : MonoBehaviour
             child.GetComponent<Collider>().isTrigger = false;
         }
         
-        SkillTree skillTree = GetComponent<SkillTree>();
+        SkillTree skillTree = GameObject.Find("SkillTreeManager").GetComponent<SkillTree>();
         skillTree._audioSource.Stop();
         skillTree._audioSource.loop = false;
         skillTree._audioSource.pitch = 1;
@@ -52,7 +52,6 @@ public class GameMenus : MonoBehaviour
 
     public void RestartGame()
     {
-        SkillTree._skillPoint = 1;
         SceneManager.LoadScene(0);
     }
     

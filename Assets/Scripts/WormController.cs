@@ -33,7 +33,7 @@ public class WormController : MonoBehaviour
 
     private void PickUpFruit()
     {
-        HighScore.score.Invoke(1);
+        ScoreHandler.score.Invoke(1);
         
         Node current = head.next.next;
 
@@ -70,6 +70,7 @@ public class WormController : MonoBehaviour
         UpdateBody();
     }
 
+    // LineRenderer draws a line between all worm nodes
     private void UpdateBody()
     {
         Node current = head;

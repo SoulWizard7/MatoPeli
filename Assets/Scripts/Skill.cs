@@ -12,12 +12,12 @@ public class Skill : MonoBehaviour
 
     public int[] connectedSkills;
 
-    private Image _skillBoxColor;
-    private SkillTree _skillTree;
+    public Image _skillBoxColor;
+    public SkillTree _skillTree;
 
-    private void Awake()
+    private void Start()
     {
-        _skillTree = GameObject.Find("GameManager").GetComponent<SkillTree>();
+        //_skillTree = GameObject.Find("SkillTreeManager").GetComponent<SkillTree>();
         _skillBoxColor = GetComponent<Image>();
     }
 
@@ -48,7 +48,7 @@ public class Skill : MonoBehaviour
         SkillTree._skillPoint -= 1;
         _skillTree._skillLevels[id]++;
         SkillTree.updateSkillTreeUI.Invoke();
-        HighScore.score.Invoke(0);
+        ScoreHandler.score.Invoke(0);
     }
 
     public void PlaySong()
@@ -57,8 +57,8 @@ public class Skill : MonoBehaviour
         
         _skillTree._audioSource.Stop();
         _skillTree._audioSource.clip = _skillTree.songs[id];
-        if (_skillTree._skillLevels[id] == 1) _skillTree._audioSource.pitch = _skillTree._skillLevels[id];
-        else _skillTree._audioSource.pitch = 1 + (_skillTree._skillLevels[id] * 0.3f);
+        if (_skillTree._skillLevels[id] == 1) _skillTree._audioSource.pitch = 1;
+        else _skillTree._audioSource.pitch = 1 + (_skillTree._skillLevels[id] * 0.1f);
         _skillTree._audioSource.Play();
     }
 }
