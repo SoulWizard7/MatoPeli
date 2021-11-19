@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
+//WormController listens to input from PlayerController and a tick from Tickmanager and controls the head of the snake.
+//Node script is rest of the body. This script also holds adding parts to body, and checking for crash into walls and self. 
+
 public class WormController : MonoBehaviour
 {
     private Vector3 _lastDirection = Vector3.forward;
@@ -28,10 +31,10 @@ public class WormController : MonoBehaviour
     private void Start()
     {
         TickManager.tick.AddListener(MoveWorm);
-        pickup.AddListener(PickUpFruit);
+        pickup.AddListener(AddBodyPart);
     }
 
-    private void PickUpFruit()
+    private void AddBodyPart()
     {
         ScoreHandler.score.Invoke(1);
         
@@ -67,11 +70,11 @@ public class WormController : MonoBehaviour
         else { HeadPosition += _lastDirection; }
 
         head.next.Move();
-        UpdateBody();
+        UpdateBodyLineRenderer();
     }
 
     // LineRenderer draws a line between all worm nodes
-    private void UpdateBody()
+    private void UpdateBodyLineRenderer()
     {
         Node current = head;
         int count = 1;
