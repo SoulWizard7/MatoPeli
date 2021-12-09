@@ -25,8 +25,7 @@ Design Patterns:
 	scripts that have game setting one might want to change. Perhaps a real façade
 	would be an actual script that controlls all the other scripts and their variables and references. So this manager gameobject could be considered a façade. These scripts
 	include StartSetup.cs, PickupSpawner.cs, TickManager.cs, ScoreHandler.cs and GameMenus.cs. I am trying to implement these kinds of game managers to help the designers to
-	not be confused
-with having setting for the games spread around in different places.
+	not be confused with having setting for the games spread around in different places.
 
 -Dependency Injections
 	-UpdateScore function in ScoreHandler.cs
